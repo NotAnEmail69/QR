@@ -1,5 +1,4 @@
 import pool from "./db.js";
-
 export const handler = async (event) => {
   const id = event.queryStringParameters?.id;
   if (!id) return { statusCode: 400, body: "Falta id" };

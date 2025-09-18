@@ -1,4 +1,5 @@
 import pool from "./db.js";
+
 export const handler = async () => {
   try {
     const result = await pool.query("SELECT NOW()");
