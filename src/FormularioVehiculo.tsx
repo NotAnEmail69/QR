@@ -56,7 +56,10 @@ export default function FormularioVehiculo() {
     }
 
     try {
-      const res = await axios.post("/.netlify/functions/vehiculos", form);
+      const res = await axios.post(
+        "https://qrbackend-k8qi.onrender.com/api/vehiculos",
+        form
+      );
       console.log(res.data);
 
       alert("Vehículo guardado correctamente 🚗");

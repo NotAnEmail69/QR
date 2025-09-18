@@ -33,7 +33,7 @@ export default function DocumentoVehiculo() {
   };
   useEffect(() => {
     axios
-      .get(`/.netlify/functions/getVehiculo?id=${id}`)
+      .get(`https://qrbackend-k8qi.onrender.com/api/${id}`)
       .then((res) => setData(res.data))
       .catch(() => setData(null));
   }, [id]);
