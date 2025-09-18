@@ -1,10 +1,12 @@
 import pkg from "pg";
+import fs from "fs";
+
 const { Pool } = pkg;
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
-    rejectUnauthorized: false, // necesario para Aiven
+    ca: fs.readFileSync(new URL("./ca.pem", import.meta.url)).toString(),
   },
 });
 
