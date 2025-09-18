@@ -6,7 +6,8 @@ const { Pool } = pkg;
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
-    ca: fs.readFileSync(new URL("./ca.pem", import.meta.url)).toString(),
+    rejectUnauthorized: true,
+    ca: process.env.DB_CA_CERT, // aquí pones el contenido de ca.pem
   },
 });
 
