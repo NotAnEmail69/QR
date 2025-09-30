@@ -33,7 +33,7 @@ export default function DocumentoVehiculo() {
   };
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/api/${id}`)
+      .get(`/api/${id}`)
       .then((res) => setData(res.data))
       .catch(() => setData(null));
   }, [id]);
