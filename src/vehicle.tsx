@@ -33,12 +33,14 @@ export default function DocumentoVehiculo() {
   };
   useEffect(() => {
     axios
-      .get(`https://qrbackend-k8qi.onrender.com/api/${id}`)
+      .get(`http://localhost:4000/api/${id}`)
       .then((res) => setData(res.data))
       .catch(() => setData(null));
   }, [id]);
 
-  if (data === null) return <h1 className="text-center mt-10"></h1>;
+  if (data === null) {
+    console.log(data);
+  }
   if (!data)
     return <h1 className="text-center mt-10">Vehículo no encontrado</h1>;
 
