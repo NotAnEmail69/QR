@@ -12,7 +12,7 @@ export default function Login() {
 
     if (username === "admin" && password === "XvBLL192") {
       localStorage.setItem("loggedIn", "true");
-      navigate("/AgregarNuevoVehiculo");
+      navigate("/admin/AgregarNuevoVehiculo");
     } else {
       setError("Usuario o contraseña incorrectos");
     }

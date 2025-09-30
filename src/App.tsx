@@ -11,7 +11,7 @@ function App() {
         <Route path="/:id" element={<DocumentoVehiculo />} />
         <Route path="/" element={<Login />} />
         <Route
-          path="/AgregarNuevoVehiculo"
+          path="/admin/AgregarNuevoVehiculo"
           element={
             <ProtectedRoute>
               <FormularioVehiculo />
