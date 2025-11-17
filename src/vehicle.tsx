@@ -25,11 +25,37 @@ export default function DocumentoVehiculo() {
 
   const formatDate = (fecha: string) => {
     if (!fecha) return "";
-    const d = new Date(fecha); // parsea la fecha ISO
-    const day = String(d.getDate()).padStart(2, "0");
-    const month = String(d.getMonth() + 1).padStart(2, "0");
-    const year = d.getFullYear();
-    return `${month}/${day}/${year}`;
+    const s = fecha.trim();
+
+    // Formato MM/DD/YYYY -> devolver DD/MM/YYYY
+    const mdy = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if (mdy) {
+      const month = String(Number(mdy[1])).padStart(2, "0");
+      const day = String(Number(mdy[2])).padStart(2, "0");
+      const year = mdy[3];
+      return `${day}/${month}/${year}`;
+    }
+
+    // Formato ISO YYYY-MM-DD
+    const iso = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+    if (iso) {
+      const year = iso[1];
+      const month = String(Number(iso[2])).padStart(2, "0");
+      const day = String(Number(iso[3])).padStart(2, "0");
+      return `${day}/${month}/${year}`;
+    }
+
+    // Fallback: intentar parseo con Date
+    const d = new Date(s);
+    if (!isNaN(d.getTime())) {
+      const day = String(d.getDate()).padStart(2, "0");
+      const month = String(d.getMonth() + 1).padStart(2, "0");
+      const year = d.getFullYear();
+      return `${day}/${month}/${year}`;
+    }
+
+    // Si no se pudo formatear, devolver la cadena original
+    return fecha;
   };
   useEffect(() => {
     axios
