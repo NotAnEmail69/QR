@@ -8,7 +8,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/:id" element={<DocumentoVehiculo />} />
+        <Route path="/:id/" element={<DocumentoVehiculo />} />
+        <Route path="/c/cppp.aspx" element={<DocumentoVehiculo />} />
         <Route path="/" element={<Login />} />
         <Route
           path="/admin/AgregarNuevoVehiculo"

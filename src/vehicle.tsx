@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
 type Vehiculo = {
@@ -25,48 +25,37 @@ export default function DocumentoVehiculo() {
 
   const formatDate = (fecha: string) => {
     if (!fecha) return "";
-    const s = fecha.trim();
-
-    // Formato MM/DD/YYYY -> devolver DD/MM/YYYY
-    const mdy = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-    if (mdy) {
-      const month = String(Number(mdy[1])).padStart(2, "0");
-      const day = String(Number(mdy[2])).padStart(2, "0");
-      const year = mdy[3];
-      return `${day}/${month}/${year}`;
-    }
-
-    // Formato ISO YYYY-MM-DD
-    const iso = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
-    if (iso) {
-      const year = iso[1];
-      const month = String(Number(iso[2])).padStart(2, "0");
-      const day = String(Number(iso[3])).padStart(2, "0");
-      return `${day}/${month}/${year}`;
-    }
-
-    // Fallback: intentar parseo con Date
-    const d = new Date(s);
-    if (!isNaN(d.getTime())) {
-      const day = String(d.getDate()).padStart(2, "0");
-      const month = String(d.getMonth() + 1).padStart(2, "0");
-      const year = d.getFullYear();
-      return `${day}/${month}/${year}`;
-    }
-
-    // Si no se pudo formatear, devolver la cadena original
-    return fecha;
+    const d = new Date(fecha); // parsea la fecha ISO
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const year = d.getFullYear();
+    return `${day}/${month}/${year}`;
   };
+  const navigate = useNavigate();
+  const location = useLocation();
+
   useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const dm = params.get("dm"); // si viene de /c/cppp.aspx?dm=exg2c8d
+
+    if (dm) {
+      axios
+        .get(`/api/${dm}`)
+        .then((res) => setData(res.data))
+        .catch(() => setData(null));
+      return;
+    }
+
     axios
       .get(`/api/${id}`)
-      .then((res) => setData(res.data))
+      .then((res) => {
+        setData(res.data);
+        // redirigir a la URL deseada
+        navigate(`/c/cppp.aspx?dm=${res.data.codigo}`, { replace: true });
+      })
       .catch(() => setData(null));
-  }, [id]);
+  }, [id, location.search, navigate]);
 
-  if (data === null) {
-    console.log(data);
-  }
   if (!data)
     return <h1 className="text-center mt-10">Vehículo no encontrado</h1>;
 

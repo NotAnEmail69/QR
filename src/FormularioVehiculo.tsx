@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from "react";
+import { customAlphabet } from "nanoid";
 import axios from "axios";
-//import { useNavigate } from "react-router-dom";
 import QRCode from "react-qr-code";
 import QrCode from "qrcode";
-//import DocumentoPlaca from "./DocumentoPlaca";
 
+const alphabet = "abcdefghijklmnopqrstuvwxyz0123456789";
+const nanoid7 = customAlphabet(alphabet, 7);
 export default function FormularioVehiculo() {
-  //const navigate = useNavigate();
   const [form, setForm] = useState({
     codigo: "",
     placa: "",
@@ -28,7 +28,7 @@ export default function FormularioVehiculo() {
   const qrRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setForm((prev) => ({ ...prev, placa: generarNumero() }));
+    setForm((prev) => ({ ...prev, placa: generarNumero(), codigo: nanoid7() }));
   }, []);
 
   const generarNumero = () => {
@@ -57,7 +57,6 @@ export default function FormularioVehiculo() {
 
     try {
       const res = await axios.post("/api/vehiculos", form);
-      console.log(res.data);
 
       alert("Vehículo guardado correctamente 🚗");
 
@@ -71,7 +70,7 @@ export default function FormularioVehiculo() {
 
       // --- Reiniciar formulario ---
       setForm({
-        codigo: "",
+        codigo: nanoid7(),
         placa: generarNumero(),
         tipo: "",
         marca: "",
@@ -126,8 +125,9 @@ export default function FormularioVehiculo() {
       ctx.fillText(form.modelo, 190, 520); // Modelo
       ctx.fillText(form.tipo, 420, 520); // Tipo
       ctx.fillText(form.anio, 600, 520); // Año
-      ctx.fillText(form.chasis, 655, 520); // Chasis
       ctx.fillText(form.color, 800, 520); // Color
+      ctx.font = "12px Arial";
+      ctx.fillText(form.chasis, 655, 520); // Chasis
 
       // --- DATOS COMPRADOR ---
       ctx.fillText(form.rnc_comprador, 335, 610);
@@ -188,6 +188,7 @@ export default function FormularioVehiculo() {
               <input
                 type="text"
                 name="codigo"
+                disabled
                 value={form.codigo}
                 onChange={handleChange}
                 className="w-full border px-3 py-2 rounded-md focus:ring-2 focus:ring-green-500"
@@ -201,7 +202,6 @@ export default function FormularioVehiculo() {
               <input
                 type="text"
                 name="placa"
-                placeholder="PP123456" // opcional, solo como guía
                 disabled
                 value={form.placa}
                 onChange={handleChange}
