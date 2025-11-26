@@ -25,12 +25,19 @@ export default function DocumentoVehiculo() {
 
   const formatDate = (fecha: string) => {
     if (!fecha) return "";
-    const d = new Date(fecha); // parsea la fecha ISO
-    const day = String(d.getDate()).padStart(2, "0");
-    const month = String(d.getMonth() + 1).padStart(2, "0");
-    const year = d.getFullYear();
-    return `${day}/${month}/${year}`;
+
+    // Si viene como DD/MM/YYYY → lo convertimos a YYYY-MM-DD
+    const [day, month, year] = fecha.split("/");
+
+    const d = new Date(`${year}-${month}-${day}`); // Formato válido para JS
+
+    const dd = String(d.getDate()).padStart(2, "0");
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    const yyyy = d.getFullYear();
+
+    return `${dd}/${mm}/${yyyy}`;
   };
+
   const navigate = useNavigate();
   const location = useLocation();
 
