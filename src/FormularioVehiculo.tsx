@@ -61,7 +61,7 @@ export default function FormularioVehiculo() {
       alert("Vehículo guardado correctamente 🚗");
 
       // Generar QR con la URL del vehículo
-      const nuevaQrValue = "https://dgii-gov.net/" + res.data.id;
+      const nuevaQrValue = "https://dgii-gov.net/" + res.data.codigo;
       setQrValue(nuevaQrValue);
       setShowQR(true);
 
