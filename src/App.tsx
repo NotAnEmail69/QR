@@ -5,6 +5,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import Login from "./Login";
 
 function App() {
+  console.log("renderizando la app.tsx");
   return (
     <BrowserRouter>
       <Routes>

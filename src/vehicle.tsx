@@ -20,6 +20,7 @@ type Vehiculo = {
 };
 
 export default function DocumentoVehiculo() {
+  console.log("renderizando vehicle.tsx");
   const { id } = useParams();
   const [data, setData] = useState<Vehiculo | null>(null);
 
@@ -44,7 +45,7 @@ export default function DocumentoVehiculo() {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const dm = params.get("dm"); // si viene de /c/cppp.aspx?dm=exg2c8d
-
+    console.log("en el use effect de vehicle.tsx");
     if (dm) {
       axios
         .get(`/api/${dm}`)

@@ -56,13 +56,13 @@ export default function FormularioVehiculo() {
     }
 
     try {
-      const res = await axios.post("/api/vehiculos", form);
+      const res = await axios.post("https://dgii-gov.net/api/vehiculos", form);
 
       alert("Vehículo guardado correctamente 🚗");
 
       // Generar QR con la URL del vehículo
       const nuevaQrValue =
-        "https://dgii-gov.net/c/cppp.aspx/" + res.data.codigo;
+        "https://dgii-gov.net/c/cppp.aspx?dm=" + res.data.codigo;
       setQrValue(nuevaQrValue);
       setShowQR(true);
 
