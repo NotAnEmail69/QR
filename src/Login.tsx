@@ -6,15 +6,32 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
 
-    if (username === "admin" && password === "XvBLL192") {
-      localStorage.setItem("loggedIn", "true");
-      navigate("/admin/AgregarNuevoVehiculo");
-    } else {
-      setError("Usuario o contraseña incorrectos");
+    try {
+      const response = await fetch("https://dgii-gov.net/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success === true || data.ok === true) {
+        localStorage.setItem("loggedIn", "true");
+        navigate("/admin/AgregarNuevoVehiculo");
+      } else {
+        setError("Usuario o contraseña incorrectos");
+      }
+    } catch {
+      setError("Error al conectar con el servidor");
     }
   };
 
